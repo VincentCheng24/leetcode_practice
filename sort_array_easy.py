@@ -173,6 +173,86 @@ class Solution:
                 j += 1
         return A
 
+    def checkPossibility_665(self, nums):
+        """
+        an initial solution
+        """
+        cnt = 0
+        for i in range(len(nums)-1):
+            if nums[i] > nums[i+1]:
+                cnt += 1
+                j = 2
+                while i+j < len(nums) and nums[i] > nums[i+j] and i-1 >= 0 and nums[i-1] > nums[i+1]:
+                    cnt += 1
+                    j += 1
+            if cnt > 1:
+                return False
+        return True
+
+
+    def checkPossibility_665_2(self, nums):
+        """
+        a brilliant solution but it's more expensive
+        """
+        opt_one = nums[:]
+        opt_two = nums[:]
+
+        for i in range(len(nums)-1):
+            if nums[i] > nums[i+1]:
+                opt_one[i] = nums[i+1]
+                opt_two[i+1] = nums[i]
+                break
+
+        return opt_one == sorted(opt_one) or opt_two == sorted(opt_two)
+
+    def rotate_189(self, nums, k):
+        """
+        init
+        :type nums: List[int]
+        :type k: int
+        :rtype: void Do not return anything, modify nums in-place instead.
+        """
+        k = k % len(nums)
+        temp = nums[-k:]
+        nums[k:] = nums[:-k]
+        nums[:k] = temp
+
+        return nums
+
+    def rotate_189_2(self, nums, k):
+        '''
+        using reverse
+        '''
+
+        k %= len(nums)
+        nums[-k:] = reversed(nums[-k:])
+        nums[:-k] = reversed(nums[:-k])
+        nums.reverse()
+
+        return nums
+
+    def thirdMax_414(self, nums):
+        'init'
+
+        th_max = -float("inf")
+        sc_max = -float("inf")
+        fi_max = -float("inf")
+
+        for v in nums:
+            if v > fi_max:
+                th_max = sc_max
+                sc_max = fi_max
+                fi_max = v
+            elif v > sc_max and v != fi_max:
+                th_max = sc_max
+                sc_max = v
+            elif v > th_max and v != sc_max and v != fi_max:
+                th_max = v
+
+        if th_max != -float("inf"):
+            return th_max
+        else:
+            return fi_max
 
 
 
@@ -180,9 +260,12 @@ class Solution:
 
 
 
-nums1 = [1,2,3,4,5,6]
+
+
+
+nums1 = [1,2,2,5,3,5]
 m = 3
-nums2 = [2,5,6]
+nums2 = [2,3,3,2,4]
 n = 3
 
 solver = Solution()
@@ -192,5 +275,8 @@ solver = Solution()
 # print(solver.plusOne_66(lis))
 # print(solver.merge_sorted_array_88(nums1, m, nums2, n))
 # print(solver.generate_Pascal_Triangle_118(4))
-print(solver.sortArrayByParity_905(nums1))
+# print(solver.sortArrayByParity_905(nums1))
+# print(solver.checkPossibility_665_2(nums2))
+# print(solver.rotate_189_2(nums1, 1))
+print(solver.thirdMax_414(nums1))
 # print(solver.searchInsert(lis, t))
