@@ -92,33 +92,67 @@ class Solution:
     def intersect_350(self, nums1, nums2):
         """
         init
+        faster without deciding short or long
         """
-        if len(nums1) < len(nums2):
-            s = nums1
-            l = nums2
-        else:
-            l = nums1
-            s = nums2
+        # if len(nums1) < len(nums2):
+        #     s = nums1
+        #     l = nums2
+        # else:
+        #     l = nums1
+        #     s = nums2
 
         res = []
-        for ele in s:
-            if ele in l:
-                res.append(ele)
+        idx = []
+        for ele in nums1:
+            for i, ele2 in enumerate(nums2):
+                if ele == ele2 and i not in idx:
+                    res.append(ele)
+                    idx.append(i)
+                    break
+        return res
+
+    def intersect_350_2(self, nums1, nums2):
+        """
+        sorted
+        """
+        nums1 = sorted(nums1)
+        nums2 = sorted(nums2)
+        l = 0
+        h = len(nums2) - 1
+
+        res = []
+        idx = []
+        for ele in nums1:
+            while l <= h:
+                m = (l + h) // 2
+                if nums2[m] == ele and m not in idx:
+                    res.append(ele)
+                    idx.append(m)
+                    break
+                elif m in idx:
+                    m += 1
+                if nums2[m] > ele:
+                    h = m - 1
+                elif nums2[m] < ele:
+                    l = m + 1
         return res
 
 
 
 
 
+
+
+
 x = [0,2,3, 1, 0]
-nums1 = [4,9,5]
-nums2 = [9,4,9,8,4]
+nums1 = [1,2]
+nums2 = [1,1]
 numbers = [-1,0]
 target = -1
 solver = Solution()
 
 # print('peakIndexInMountainArray:', solver.peakIndexInMountainArray_852_2(x))
 # print('intersection_349:', solver.intersection_349_2(nums1, nums2))
-print('twoSum_167:', solver.twoSum_167_2(numbers, target))
-# print('intersection_349:', solver.intersection_349_2(nums1, nums2))
-# print('intersection_349:', solver.intersection_349_2(nums1, nums2))
+# print('twoSum_167:', solver.twoSum_167_2(numbers, target))
+# print('intersect_350:', solver.intersect_350(nums1, nums2))
+print('intersect_350_2:', solver.intersect_350_2(nums1, nums2))
