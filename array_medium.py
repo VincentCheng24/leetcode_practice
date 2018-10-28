@@ -1,3 +1,5 @@
+import math
+
 class Solution:
     def findDuplicates_442(self, nums):
         """
@@ -38,6 +40,23 @@ class Solution:
 
         # print('well done')
 
+    def findDuplicates_442_hash(self, nums):
+        """
+        some trick
+        The idea is we do a linear pass using the input array itself as
+        a hash table to store which numbers have been seen before.
+        """
+        res = []
+        # nums = sorted(nums)
+        for i in range(len(nums)):
+            idx = abs(nums[i]) - 1
+            if nums[idx] < 0:
+                res.append(abs(nums[i]))
+            else:
+                nums[idx] = -nums[idx]
+
+        return res
+
 
 
 
@@ -49,8 +68,9 @@ class Solution:
 
 
 solver = Solution()
-nums = [4,3,2,7,8,2,3,1,8]
+nums = [2,2]
 
 # print('findDuplicates:', solver.findDuplicates_442(nums))
 # print('findDuplicates:', solver.findDuplicates_442_sort(nums))
-print('findDuplicates:', solver.findDuplicates_442_sort_set(nums))
+# print('findDuplicates:', solver.findDuplicates_442_sort_set(nums))
+print('findDuplicates:', solver.findDuplicates_442_hash(nums))
