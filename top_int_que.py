@@ -150,6 +150,90 @@ class Solution:
         # xx = res.popitem()
         return res.popitem()[0]
 
+    def romanToInt_13_1(self, s):
+        """
+        init solution
+        """
+        # s = list(s)
+        vals = []
+        for v in s:
+            if v == 'I':
+                val = 1
+            elif v == 'V':
+                val = 5
+            elif v == 'X':
+                val = 10
+            elif v == 'L':
+                val = 50
+            elif v == 'C':
+                val = 100
+            elif v == 'D':
+                val = 500
+            elif v == 'M':
+                val = 1000
+            vals.append(val)
+
+        sum = 0
+        for i in range(1, len(vals)):
+            if vals[i-1] < vals[i]:
+                sum -= vals[i-1]
+            else:
+                sum += vals[i-1]
+        sum += vals[-1]
+        return sum
+
+    def romanToInt_13_2(self, s):
+
+        numerals = {
+            'I': 1,
+            'V': 5,
+            'X': 10,
+            'L': 50,
+            'C': 100,
+            'D': 500,
+            'M': 1000,
+        }
+
+        last = None
+        sum = 0
+
+        for c in s:
+            if last is None:
+                last = c
+                sum += numerals[last]
+                continue
+
+            if last == 'I':
+                if c == 'V':
+                    sum += 3
+                elif c == 'X':
+                    sum += 8
+                else:
+                    sum += numerals[c]
+
+            elif last == 'X':
+                if c == 'L':
+                    sum += 30
+                elif c == 'C':
+                    sum += 80
+                else:
+                    sum += numerals[c]
+
+            elif last == 'C':
+                if c == 'D':
+                    sum += 300
+                elif c == 'M':
+                    sum += 800
+                else:
+                    sum += numerals[c]
+
+            else:
+                sum += numerals[c]
+
+            last = c
+        return sum
+
+
 
 
 solver = Solution()
@@ -157,6 +241,11 @@ s1 = "A man, a plan, a canal: Panama"
 s2 = "hello"
 nums1 = [4,1,2,1,2]
 nums2 = [2,2,1]
+s3 = "IV"
+s4 = "MCMXCIV"
+
+print('romanToInt_13_1: ', solver.romanToInt_13_1(s4))
+print('romanToInt_13_2: ', solver.romanToInt_13_2(s4))
 
 
 # print('reverseString_344_1: ', solver.reverseString_344_1(s1))
@@ -169,7 +258,7 @@ nums2 = [2,2,1]
 # print('fizzBuzz_412_3: ', solver.fizzBuzz_412_3(15))
 # print('fizzBuzz_412_4: ', solver.fizzBuzz_412_4(15))
 
-print('singleNumber_136_1: ', solver.singleNumber_136_1(nums2))
-print('singleNumber_136_2: ', solver.singleNumber_136_2(nums1))
-print('singleNumber_136_3: ', solver.singleNumber_136_3(nums2))
-print('singleNumber_136_4: ', solver.singleNumber_136_4(nums2))
+# print('singleNumber_136_1: ', solver.singleNumber_136_1(nums2))
+# print('singleNumber_136_2: ', solver.singleNumber_136_2(nums1))
+# print('singleNumber_136_3: ', solver.singleNumber_136_3(nums2))
+# print('singleNumber_136_4: ', solver.singleNumber_136_4(nums2))
